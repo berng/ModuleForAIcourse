@@ -1,0 +1,23 @@
+stud_sol_list.page:
+  path: '/examples/stud-sol-list'
+  defaults:
+    _title: 'Ваши задачи и решения'
+    _controller: '\Drupal\stud_sol_list\Controller\StudSolListPage::getContent'
+  requirements:
+    _permission: 'access content'
+
+stud_sol_list2.page:
+  path: '/examples/stud-sol-list/{action}/{ssid}'
+  defaults:
+    _title: 'Ваши задачи и решения'
+    _controller: '\Drupal\stud_sol_list\Controller\StudSolListPage::getContent'
+  requirements:
+    _permission: 'access content'
+
+stud_sol_list.admin_page:
+  path: '/examples/stud-sol-list-admin'
+  defaults:
+    _title: 'Все посланные решения'
+    _controller: '\Drupal\stud_sol_list\Controller\StudSolListPage::getAdminContent'
+  requirements:
+    _permission: 'access content'

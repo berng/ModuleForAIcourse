@@ -1,0 +1,2 @@
+fix file.module , l.967 to support other file types - .zip,.dat,.py
+or fix somehow file_validate_extension parameter

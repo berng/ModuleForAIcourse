@@ -1,0 +1,228 @@
+<?php
+
+/**
+ * @file
+ * Demonstrates use of the Cron API in Drupal - hook_cron().
+ */
+
+/**
+ * @defgroup stud_autoproc Example: Cron
+ * @ingroup examples
+ * @{
+ * Example using Cron API, including hook_cron() and @QueueWorker plugins
+ *
+ * This example is part of the Examples for Developers Project
+ * which you can download and experiment with at
+ * http://drupal.org/project/examples
+ */
+
+
+
+//namespace Drupal\stud_sol_list\Controller;
+
+use Drupal\Core\Controller\ControllerBase;
+use Drupal\Core\Entity\EntityStorageInterface;
+use Drupal\Core\Session\AccountInterface;
+use Drupal\Core\Url;
+use Drupal\Core\Link;
+use Symfony\Component\DependencyInjection\ContainerInterface;
+use Drupal\file\Element;
+use Drupal\file\Entity\File;
+use Drupal\Core\Render\Markup;
+
+use Drupal\Core\Cache\Cache;
+
+use Drupal\node\Entity\Node;
+use Drupal\user\Entity\User;
+
+//use Drupal\Core\File;
+//use Drupal\Core\File\FileSystem;
+
+
+
+
+
+
+
+  function processSolution($node)
+    {
+	    $tid=$node->get('field_task_id')->getValue()[0]['value'];
+	    $result=\Drupal::entityQuery("node")
+		    ->condition('type','task','=')
+		    ->condition('field_st_tid',$tid,'=')
+		    ->execute();
+	    $storage_handler=\Drupal::entityTypeManager()->getStorage("node");
+	    $tasks=$storage_handler->loadMultiple($result);
+
+	/// read files 
+	    foreach($tasks as $task)
+	     { break; }
+
+	    $uid=$node->get('field_ss_uid')->getValue()[0]['value'];
+	    $res1=shell_exec('rm -rf tmp_user_data/u-'.$uid);
+	    $res1=shell_exec('mkdir tmp_user_data/u-'.$uid);
+
+//	    print('task:');
+//	    print_r($task);
+	    if($task)
+	    {
+		$file_id=$task->get('field_file_test')->getValue()[0]['target_id'];
+		$file_test=File::load($file_id);
+		$fname6=$file_test->getFileUri();
+		$fname61=\Drupal::service('file_system')->copy($fname6,
+					    "tmp_user_data/u-$uid/src_data.dat",FILE_EXISTS_RENAME);
+
+		$file_id2=$task->get('field_call_function')->getValue()[0]['target_id'];
+		$file_test2=File::load($file_id2);
+		$fname7=$file_test2->getFileUri();
+		$fname71=\Drupal::service('file_system')->copy($fname7,
+					    "tmp_user_data/u-$uid/process_all.py",FILE_EXISTS_RENAME);
+	    }
+
+//get files	
+	$file_sol=File::load($node->get('field_ss_solution_fid')->getValue()[0]['value']);
+	$file_tp=File::load($node->get('field_ss_trained_params_fid')->getValue()[0]['value']);
+	$file_tprog=File::load($node->get('field_ss_training_program_fid')->getValue()[0]['value']);
+///
+	$fname2=$file_sol->getFileUri();
+	$fname2_tp=$file_tp->getFileUri();
+
+	$fname3=\Drupal::service('file_system')->copy($fname2,"tmp_user_data/u-$uid/myclass.py",FILE_EXISTS_RENAME);
+	$fname4=\Drupal::service('file_system')->copy($fname2_tp,"tmp_user_data/u-$uid/trained_params.zip",FILE_EXISTS_RENAME);
+//	$fname3=file_copy($file_sol,'temporary://user_tmp/sol.py',FILE_EXISTS_RENAME);
+//	file_prepare_directory('public://user_tmp/sol_tmp.py',FILE_CREATE_DIRECTORY);
+
+/*
+	$dir='public://user_tmp/';
+	\Drupal::service('file_system')->prepareDirectory($dir,
+			\Drupal\Core\File\FileSystemInterface::CREATE_DIRECTORY
+//			|
+//			\Drupal\Core\File\FileSystemInterface::MODIFY_PERMISSIONS
+			);
+
+//	$file_tmp=file_copy($file_sol,'public://user_tmp/sol_tmp.py',FILE_EXISTS_REPLACE);
+
+	$file_tmp->setTemporary();
+	$file_tmp->save();
+*/	
+	
+//create processed solutions module
+//	print('res01:'.$res1."\n<br>");
+//	$res1=exec('date');
+//	$res2=exec('whoami && pwd && ls -la /home/oleg');
+//	$res1=shell_exec('whoami && pwd && mkdir tmp_user_data/aa1 && ls tmp_user_data');
+/*
+	$f=fopen('/var/www/html/drupal/tmp_user_data/my.dat','w');
+	fwrite($f,"#!/usr/bin/python3\nprint('hello python:',(1+2+7))");
+	fclose($f);
+*/
+	$res=shell_exec("cd tmp_user_data/u-$uid/ && /usr/bin/unzip trained_params.zip 1>/dev/null 2>/dev/null && /usr/bin/python3 ./process_all.py");
+//	$res2=shell_exec("/usr/bin/python3 tmp_user_data/u-$uid/user_solution.py < tmp_user_data/u-$uid/src_data.dat");
+//	$res2=system("/usr/bin/python3 tmp_user_data/u-$uid/user_solution.py < tmp_user_data/u-$uid/src_data.dat");
+#	$res2=system("cd tmp_user_data/u-$uid/ && cat ./src_data.dat | /usr/bin/python3 ./user_solution.py");
+//	$res2=system("cd tmp_user_data/u-$uid/ && /usr/bin/python3 ./user_solution.py");
+//	$res3=shell_exec("rm -rf tmp_user_data/u-$uid");
+
+//	print('res21:'.$res1."\n<br>");
+//	print('res23:'.$res3."\n<br>");
+//	print('res22:'.$res2."\n<br>====\n<br>");
+//	die();
+
+	$ps_node=Node::create([
+				'type'=>'processedsolutions',
+				'created'=>1,
+				'title'=>$node->getTitle(),
+				]);
+	$ps_node->set('field_uid',$node->get('field_ss_uid')->getValue()[0]['value']);
+	$ps_node->set('field_tid',$node->get('field_task_id')->getValue()[0]['value']);
+	$ps_node->set('field_solution_id',$node->id());
+	$ps_node->set('field_ps_result',$res*100.0);
+	$ps_node->set('field_process_date',time());
+	$ps_node->set('field_ps_debug','res1:'.$res1);
+	$ps_node->set('field_ps_errors','res2:'.$res2);
+//	$ps_node->status=0;
+	$ps_node->enforceIsNew(TRUE);
+	$ps_node->save();
+	Cache::invalidateTags($ps_node->getCacheTags());
+
+// update student solutions node
+	$node->set('field_result',$res*100.0);
+	$node->set('field_processed_time',time());
+	$node->save();
+	Cache::invalidateTags($node->getCacheTags());
+    return $res*100.0;
+    }
+
+
+
+
+
+
+/**
+ * Implements hook_cron().
+ *
+ * We implement hook_cron() to do "background" processing. It gets called every
+ * time the Drupal cron runs. We then decide what has to happen in response.
+ *
+ * In this example, we log a message after the time given in the state value
+ * 'stud_autoproc.next_execution'. Then we update that variable to a time in the
+ * future.
+ */
+function stud_autoproc_cron() {
+  // We access our configuration.
+  $cron_config = \Drupal::config('stud_autoproc.settings');
+  // Default to an hourly interval. Of course, cron has to be running at least
+  // hourly for this to work.
+  $interval = $cron_config->get('interval');
+  $interval = !empty($interval) ? $interval : 60;
+  $interval = 10;
+
+  // We usually don't want to act every time cron runs (which could be every
+  // minute) so keep a time for the next run in the site state.
+  $next_execution = \Drupal::state()->get('stud_autoproc.next_execution', 0);
+    \Drupal::logger('stud_autoproc')->notice('stud_autoproc ran, RT:'.REQUEST_TIME.'>?'.$next_execution);
+  if (REQUEST_TIME >= $next_execution) {
+    // This is a silly example of a cron job.
+    // It just makes it obvious that the job has run without
+    // making any changes to your database.
+
+
+
+
+
+	$result=\Drupal::entityQuery("node")
+		    ->condition('type','studentsolution','=')
+		    ->condition('field_processed_time',0,'=')
+		    ->execute();
+	    $storage_handler=\Drupal::entityTypeManager()->getStorage("node");
+	    $nodes=$storage_handler->loadMultiple($result);
+
+	/// read files 
+	    $ids='';
+	    foreach($nodes as $node)
+	     {
+		$result=processSolution($node);
+		$node->set('field_result',$result);
+
+// update student solutions node
+		$node->set('field_processed_time',time());
+		$node->save();
+		Cache::invalidateTags($node->getCacheTags());
+
+		$ids.=','.$node->id();
+	     }
+
+
+
+    \Drupal::logger('stud_autoproc')->notice('stud_autoproc ran, ids:'.$ids);
+    if (\Drupal::state()->get('stud_autoproc_show_status_message')) {
+      \Drupal::messenger()->addMessage(t('stud_autoproc executed at %time', ['%time' => date('c')]));
+      \Drupal::state()->set('stud_autoproc_show_status_message', FALSE);
+    }
+    \Drupal::state()->set('stud_autoproc.next_execution', REQUEST_TIME + $interval);
+  }
+}
+
+/**
+ * @} End of "defgroup stud_autoproc".
+ */

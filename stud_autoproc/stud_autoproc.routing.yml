@@ -1,0 +1,7 @@
+stud_autoproc.description:
+  path: '/examples/stud-autoproc'
+  defaults:
+    _form: '\Drupal\stud_autoproc\Form\StudAutoprocForm'
+    _title: 'Stud Autoproc'
+  requirements:
+    _permission: 'access content'

@@ -1,0 +1,9 @@
+name: Student Solution
+type: module
+description: Input Interface for Student solution
+package: Example modules
+core_version_requirement: ^9
+configure: stud_solution.description
+dependencies:
+  - drupal:node
+  - examples:examples

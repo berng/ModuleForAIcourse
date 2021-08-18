@@ -1,0 +1,45 @@
+<?php
+
+/**
+ * @file
+ * Student Solution forms using the Forms API.
+ */
+
+/**
+ * @defgroup stud_solution Example: Forms API
+ * @ingroup examples
+ * @{
+ * Examples using Forms API.
+ *
+ * Creating A Drupal Form requires:
+ * - Creating a class that extends \Drupal\Core\Form\FormBase or
+ *   \Drupal\Core\Form\ConfigFormBase
+ *   - \Drupal\stud_solution\Form\SimpleForm
+ * - Register the route to the form or invoke using
+ *   \Drupal::formBuilder()->getForm()
+ *   - stud_solution.routing.yml
+ *
+ * In addition to the simple example described above this module provides
+ * examples that demonstrate:
+ * - Elements used for data input
+ *   -\Drupal\stud_solution\Form\InputDemo
+ * - The order of execution of form controller methods
+ *   - \Drupal\stud_solution\Form\BuildDemo
+ * - Container elements used to group items
+ *   - \Drupal\stud_solution\Form\ContainerDemo
+ * - Hiding elements based on the state of other elements
+ *   - \Drupal\stud_solution\Form\StateDemo
+ * - Vertical Tabs elements in forms
+ *   - \Drupal\stud_solution\Form\VerticalTabsDemo
+ * - Populating a portion on a form with Ajax callbacks
+ *   - \Drupal\stud_solution\Form\AjaxColorForm
+ * - Adding additional fields to a form with Ajax callbacks
+ *   - \Drupal\stud_solution\Form\AjaxAddMore
+ * - Modal form creation
+ *   - \Drupal\stud_solution\Controller\Page
+ *   - \Drupal\stud_solution\Form\ModalForm
+ * - Displaying a form in a block
+ *   - \Drupal\stud_solution\Plugin\Block\SimpleFormBlock
+ *
+ * @} End of "defgroup field_example".
+ */

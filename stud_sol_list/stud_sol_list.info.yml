@@ -1,0 +1,8 @@
+name: Stud Sol List Example
+type: module
+description: Demonstrates how to use table and render page elements to create paginated tables.
+package: Example modules
+core_version_requirement: ^9
+dependencies:
+  - drupal:node
+  - examples:examples

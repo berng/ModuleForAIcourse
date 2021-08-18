@@ -1,0 +1,12 @@
+# Set configuration defaults. This schema describes the stud_autoproc.settings
+# config. The defaults for this config are set in
+# config/install/stud_autoproc.settings.yml and then used by
+# \Drupal\stud_autoproc\Form\StudAutoprocForm.
+# @see https://www.drupal.org/node/1905070
+stud_autoproc.settings:
+  type: config_object
+  label: 'Stud Autoproc settings'
+  mapping:
+    interval:
+      type: integer
+      label: 'Period between cron runs'

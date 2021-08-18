@@ -1,0 +1,4 @@
+# Default form values for \Drupal\stud_autoproc\Form\StudAutoprocForm.
+# @see examples/stud_autoproc/config/schema/stud_autoproc.schema.yml
+# @see \Drupal\stud_autoproc\Form\StudAutoprocForm::getEditableConfigNames()
+interval: 300

@@ -1,0 +1,7 @@
+stud_sol_list.page:
+  title: Задачи и решения
+  route_name: stud_sol_list.page
+
+stud_sol_list.admin_page:
+  title: Все посланные решения
+  route_name: stud_sol_list.admin_page

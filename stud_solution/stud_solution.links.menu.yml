@@ -1,0 +1,78 @@
+# Define default links for this module.
+# stud_solution.description:
+#   title: Машинное обучение и большие данные
+#   description: Машинное обучение и большие данные
+#   route_name: stud_solution.description
+#   expanded: TRUE
+
+# stud_solution.simple_form:
+#   title: Simple form
+#   description: A simple form example with submit processing.
+#   route_name: stud_solution.simple_form
+#   parent: stud_solution.description
+#   weight: -9
+# 
+# stud_solution.multistep_form:
+#   title: Multistep form
+#   description: Multistep form example with submit processing.
+#   route_name: stud_solution.multistep_form
+#   parent: stud_solution.description
+#   weight: -8
+
+stud_solution.input_demo:
+  title: Загрузить свое решение
+  description: A form to demonstrate input elements.
+  route_name: stud_solution.input_demo
+#  parent: stud_solution.description
+#  weight: -7
+
+# stud_solution.build_demo:
+#   title: Build form demo
+#   description: Demonstrates the order of firing of from controller methods.
+#   route_name: stud_solution.build_demo
+#   parent: stud_solution.description
+#   weight: -6
+
+# stud_solution.container_demo:
+#   title: Container elements
+#   description: A form to demonstrate use of containers.
+#   route_name: stud_solution.container_demo
+#   parent: stud_solution.description
+#   weight: -5
+
+# stud_solution.state_demo:
+#   title: Form state binding
+#   description: A form to demonstrate binding of form state.
+#   route_name: stud_solution.state_demo
+#   parent: stud_solution.description
+#   weight: -4
+
+# stud_solution.vertical_tabs_demo:
+#   title: Vertical tab elements
+#   description: A form to demonstrate use of vertical tabs.
+#   route_name: stud_solution.vertical_tabs_demo
+#   parent: stud_solution.description
+#   weight: -3
+
+# stud_solution.ajax_color_demo:
+#   title: Ajax form
+#   description: AJAX form demo.
+#   route_name: stud_solution.ajax_color_demo
+#   parent: stud_solution.description
+#   weight: -2
+
+# stud_solution.ajax_addmore:
+#   title: Add-more button
+#   description: Form with 'add more' and 'remove' buttons.
+#   route_name: stud_solution.ajax_addmore
+#   parent: stud_solution.description
+#   weight: -1
+
+# stud_solution.modal_form:
+#   title: Modal form
+#   description: Demonstrates using Drupal's modal form.
+#   route_name: stud_solution.modal_form
+#   route_parameters:
+#     nojs: nojs
+#   parent: stud_solution.description
+#   weight: 0

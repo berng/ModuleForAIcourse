@@ -1,0 +1,20 @@
+{#
+
+Description text for the Form API Example.
+
+#}
+
+{{ attach_library('core/drupal.dialog.ajax') }}
+{% set input_demo = path('stud_solution.input_demo') %}
+{% set block_admin = path('block.admin_display') %}
+
+{% trans %}
+<p>Form examples to demonstrate common UI solutions using the Drupal Form API</p>
+<p><a href={{ input_demo }}>Common input elements</a></p>
+
+<p>This module also provides a block, "Example: Display a form" that
+    demonstrates how to display a form in a block. This same technique can be
+    used whenever you need to display a form that is not the primary content of
+    a page. You can enable it on your site <a href={{ block_admin }}>using the
+    block admin page</a>.</p>
+{% endtrans %}
